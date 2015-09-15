@@ -2,7 +2,7 @@
 计算验证某个生成随机数字函数的随机性，产出结果为衡量随机性的数值；
 
 例如内置的随机函数
-```java
+```javascript
 //javascript or java language
 Math.random
 //or javascript
