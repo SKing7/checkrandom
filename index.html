@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+<script>
+
+var width = 4096,
+    height = 4096;
+
+var sample = uniformRandomSampler(width, height, 20000);
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+d3.timer(function() {
+    for (var i = 0; i < 10; ++i) {
+        var s = sample();
+        if (!s) return true;
+
+        svg.append("circle")
+            .attr("cx", s[0])
+            .attr("cy", s[1])
+            .attr("r", 0)
+            .transition()
+            .attr("r", 2);
+    }
+});
+
+function uniformRandomSampler(width, height, numSamplesMax) {
+    var numSamples = 0;
+    return function() {
+        if (++numSamples > numSamplesMax) {
+            console.log('unit test done');
+            return;
+        };
+        //return [Math.random() * width, Math.random() * height];
+        //-xxxx-4xxx-yxxx-xxxxxxxxxxxx
+        var hex_1 = 'xxx'.replace(/[xy]/g, function(c) {
+            var r = random();
+            return r.toString(16);
+        });
+        var hex_2 = 'xxx'.replace(/[xy]/g, function(c) {
+            var r = random();
+            //var v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return r.toString(16);
+        });
+
+        return [parseInt(hex_1, 16), parseInt(hex_2, 16)];
+    };
+    function random() {
+        return Math.random() * 16 | 0;
+        if (window.crypto) window.crypto.getRandomValues(new Uint8Array(1))[0]>>4;
+    }
+}
+</script>
